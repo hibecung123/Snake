@@ -38,10 +38,14 @@ h1
     background-color: none;
     border: 1px solid rgb(26, 1, 1);
 }
+.snakes
+{
+    position: inherit;   
+}
 .snake
 {
-    width:240px;
-    height:30px;
     background-color: blue;
+    width:40px;
+    height:30px;
     position: absolute;
 }

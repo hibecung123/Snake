@@ -1,6 +1,10 @@
 const game=document.querySelector('.game')
 const res=document.querySelector('#result')
-const start=[0,0]
+const bigsnake=document.querySelector('.snakes')
+const start=[40,-60]
+const boardwidth=800
+const boardheight=480
+let length=6
 let position=start
 let mytime
 for(let i=0;i<320;i++)
@@ -9,27 +13,174 @@ for(let i=0;i<320;i++)
     block.classList.add('block')
     game.appendChild(block)
 }
-const snake=document.createElement('div')
-snake.classList.add('snake')
-game.appendChild(snake)
-
-function drawsnake()
+for(let i=0;i<2;i++)
 {
-    snake.style.left=position[0]+'px'
+    const smallsnake=document.createElement('div')
+    smallsnake.classList.add('snake')
+    bigsnake.appendChild(smallsnake)
 }
-(document).onkeydown(function(e){ 
+const snakes=document.querySelectorAll('.snakes div')
+console.log(snakes.length)
+for(let i=0;i<snakes.length;i++)
+{
+    snakes[i].style.left=position[0]+(snakes.length-1-i)*40+'px'
+    snakes[i].style.bottom=position[1]+'px'
+}
+
+function drawsnakesfory()
+{
+    if(currentmove==='Top' || currentmove==='Down' || currentmove===null)
+    {
+        var nowy=snakes[0].style.bottom
+        for(let i=0;i<snakes.length;i++)
+        {
+            snakes[i].classList.remove('snake')
+            snakes[i].style.bottom=nowy
+            if(nextmove==='Left')
+            {snakes[i].style.left=position[0]-(snakes.length-i-2)*40+'px'}
+            else
+            {
+                snakes[i].style.left=position[0]+(snakes.length-i-2)*40+'px'
+            }
+            snakes[i].classList.add('snake')
+        }
+    }
+    else
+    {
+        for(let i=0;i<snakes.length;i++)
+        {
+            if(currentmove==='Left')
+            {snakes[i].style.left=position[0]-(snakes.length-i-2)*40+'px'}
+            else
+            {
+                snakes[i].style.left=position[0]+(snakes.length-i-2)*40+'px'
+            }
+        }
+    }
+}
+function drawsnakesforx()
+{
+    if(currentmove==='Left' || currentmove==='Right' || currentmove===null)
+    {
+        var nowx=snakes[0].style.left
+        for(let i=0;i<snakes.length;i++)
+        {
+            snakes[i].classList.remove('snake')
+            snakes[i].style.left=nowx
+            if(nextmove==='Top')
+            {snakes[i].style.bottom=position[1]+(snakes.length-2-i)*30+'px'}
+            else
+            {
+            snakes[i].style.bottom=position[1]-(snakes.length-2-i)*30+'px'
+            }
+            snakes[i].classList.add('snake')
+        }
+    }
+    else
+    {
+        for(let i=0;i<snakes.length;i++)
+        {
+            if(currentmove==='Top')
+            {snakes[i].style.bottom=position[1]+(snakes.length-2-i)*30+'px'}
+            else
+            {
+            snakes[i].style.bottom=position[1]-(snakes.length-2-i)*30+'px'
+            }
+        }
+    }
+}
+let currentmove=null
+let nextmove=null
+document.addEventListener('keydown',move)
+function move(e)
+{   
     switch(e.key)
     {
         case "ArrowLeft":
-        position[0]-=40;
-        drawsnake()
-        break;
+        {
+            if(currentmove==='Left' || currentmove==='Right')
+            {break;}
+            else {
+            clearInterval(mytime)    
+            mytime=setInterval(Left,120)}
+            break;
+        }
         case "ArrowRight":
-        position[0]+=40;
-        drawsnake()
-        break;
-    }})
+        {
+            if(currentmove==='Left' || currentmove==='Right')
+            {break;}
+            else {
+            clearInterval(mytime)
+            mytime=setInterval(Right,120)}
+            break;
+        }
+        case "ArrowUp":
+        {
+            if(currentmove==='Top' || currentmove==='Down')
+            {break;}
+            else {
+            clearInterval(mytime)
+            mytime=setInterval(Top,120)}
+            break;
+        }
+        case "ArrowDown":
+        {
+            if(currentmove==='Top' || currentmove==='Down')
+            {break;}
+            else {
+            clearInterval(mytime)
+            mytime=setInterval(Down,120)}
+            break;
+        }
+    }
+}
 
-
+function Left()
+{   
+    nextmove="Left"
+    position[0]-=40;
+    drawsnakesfory();
+    setTimeout(checkhit,50)
+    currentmove=nextmove
+}
+function Right()
+{
+    
+    nextmove="Right"
+    position[0]+=40;
+    drawsnakesfory();
+    setTimeout(checkhit,50)
+    currentmove=nextmove
+}
+function Top()
+{
+    nextmove="Top"
+    position[1]+=30;
+    drawsnakesforx();
+    setTimeout(checkhit,50)
+    currentmove=nextmove
+}
+function Down()
+{
+    nextmove="Down"
+    position[1]-=30;
+    drawsnakesforx();
+    setTimeout(checkhit,50)
+    currentmove=nextmove
+   
+}
+let currx
+let curry
+function checkhit()
+{
+    currx=parseInt(snakes[0].style.left)
+    curry=parseInt(snakes[0].style.bottom)
+    console.log(currx)
+    console.log(curry)
+    if(currx <= 0 || currx >=760 || curry>=0 || curry<=-450)
+    {alert('You lose')
+    clearInterval(mytime)
+    location.reload();}    
+}
 
 
