@@ -1,0 +1,47 @@
+*
+{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+body
+{
+    background-image: url(https://media.istockphoto.com/vectors/valentines-day-and-wedding-background-design-of-watercolor-hearts-vector-id1294275073?k=20&m=1294275073&s=612x612&w=0&h=qGuLcs8fgP_jy8E3wtOUdvO8tFcFd18Nf5HL9-UOCEo=);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+h1
+{
+    color:red;
+    text-align: center;
+}
+.score
+{
+    color:red;
+    text-align: left;
+    margin-bottom: 50px;
+}
+.game
+{
+    display:flex;
+    width:810px;
+    height:490px;
+    border:5px solid black;
+    margin:auto;
+    flex-wrap: wrap;
+    position: relative;
+}
+.block
+{
+    width:40px;
+    height:30px;
+    background-color: none;
+    border: 1px solid rgb(26, 1, 1);
+}
+.snake
+{
+    width:240px;
+    height:30px;
+    background-color: blue;
+    position: absolute;
+}
